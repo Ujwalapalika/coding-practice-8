@@ -21,6 +21,7 @@ const intializedbserver = async () => {
     process.exit(1);
   }
 };
+intializedbserver();
 const gettodofn = (eachtodo) => {
   return {
     id: eachtodo.id,
@@ -68,7 +69,7 @@ app.get("/todos/?status=TO%20DO", async (request, response) => {
       gettodosquery = `select * from todo like '%${search_q}%';`;
   }
   data = await db.all(gettodosquery);
-  response.send(data);
+  response.send(data.map((eachtodo) => gettodofn(eachtodo)));
 });
 app.get("/todos/:todoId/", async (request, response) => {
   const { todoId } = request.params;
